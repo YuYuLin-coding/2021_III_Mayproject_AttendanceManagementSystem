@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OO公司差勤系統</title>
+    <link rel="stylesheet" type="text/css" href="public/css/css01.css">
+    <script src="public/js/jquery-3.4.1.js"></script>
+    <script src="public/js/jquery-migrate-1.4.1.js"></script>
+
+    <style>
+        table,
+        tr,
+        th,
+        td {
+            border: 3px solid black;
+        }
+
+        th {
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: cadetblue;
+        }
+
+        td {
+            padding: 10px;
+            background-color: rgba(0, 195, 255, 0.2);
+        }
+
+        table tr td:first-child {
+            border-right: none;
+            text-align: center;
+        }
+
+        table tr td:nth-child(2) {
+            border-left: none;
+        }
+
+        table tr td:nth-child(3) {
+            border-right: none;
+            text-align: center;
+        }
+
+        table tr td:nth-child(4) {
+            border-left: none;
+        }
+
+        input {
+            /* height: 100%; */
+            display: inline-block;
+            /* position: relative; */
+            width: 99%;
+            /* overflow-x:visible;overflow-y:visible; */
+            height: 40px;
+            font-size: 30px;
+        }
+
+        td {
+            border: solid green 1px;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="div1">
+        <p style="text-align: center;"><a href="/index">首頁</a></p>
+
+        <nav id="navleft">
+            <ul>
+                <li><a href="/personalWorkRecord">個人差勤紀錄表</a></li>
+                <li><a href="/overTimeApply">加班申請</a></li>
+                <li><a href="/leaveApply">請假申請/代理人設定</a></li>
+                <li><a href="/salary">薪資查詢</a></li>
+                <li><a href="/personalInformation">個人通訊/基本資料</a></li>
+                <li><a href="/quitApply">離職申請/留職停薪申請</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="div2">
+        <nav id="navtop">
+            <ul>
+                <li><a href="/personalInformation">個人通訊/基本資料</a></li>
+
+            </ul>
+        </nav>
+    </div>
+    <div id="div3">
+        使用者<span style="background-color: powderblue;"><b>
+                <%= accNum %>
+            </b></span> 登入中
+        <button onclick="logoutF()">登出</button>
+    </div>
+    <div id="div4">
+        <p>歡迎<span style="color: purple;">
+                <%= accNum %>
+            </span>使用OO公司差勤系統! </p>
+        <!-- <select id="whichPerson" onChange="renew(this.selectedIndex);" style="font-size: 25px;">
+            <option value="0">水大俠</option>
+            <option value="1">王月嬌</option>
+        </select> -->
+        <div style="margin-top: 10px;">
+            <form action="" id="form">
+                <table style="width:98%; margin: auto;word-break: break-all;">
+                    <caption>個人通訊基本資料</caption>
+                    <!-- <tr>
+                    <th colspan="4" id="table00">年度:</th>
+                </tr> -->
+                    <tr>
+                        <th width='15%'>員工號碼</td>
+                        <td width='35%' id='table01'>
+                            <%= WorkId %>
+                        </td>
+                        <th width='15%'>姓名:</td>
+                        <td width='35%' id='table02'>
+                            <%= Name %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width='20%'>身分證:</td>
+                        <td width='30%' id='table03'>
+                            <%= PersonalId %>
+                        </td>
+                        <th width='20%'>電話:</td>
+                        <td width='30%'><input type="text" id='table04' value=<%=Phone %> > </td>
+                    </tr>
+                    <tr>
+                        <th width='20%'>手機:</td>
+                        <td width='30%'><input type="text" id='table05' value=<%=CellPhone %> required></td>
+                        <th width='20%'>就職日期:</td>
+                        <td width='30%' id='table06'>
+                            <%= WorkStartDay %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width='20%'>住址:</td>
+                        <td width='80%' colspan="3"><input type="text" id='table07' value=<%=Address %>></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">個人健康資料:</th>
+                    </tr>
+                    <tr>
+                        <th width='20%'>性別:</td>
+                        <td width='30%' id='table08'>
+                            <%= Sex %>
+                        </td>
+                        <th width='20%'>血型:</td>
+                        <td width='30%' id='table09'>
+                            <%= Blood %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width='20%'>過敏:</td>
+                        <td width='80%' colspan="3"><input type="text" id='table10' value=<%=Allergy %>></td>
+                        
+                    </tr>
+
+                    <tr>
+                        <th width='20%'>緊急聯絡人<br>資訊:</td>
+                        <td colspan="3" width="80%">
+                            <input type="text" id='table12' value="<%= EmergencyContactPerson %>">
+                            關係: <input type="text" id='table13' value="<%= EmergencyContactRelationship %>">
+                            手機:<input type="text" id='table14' value="<%=EmergencyContactPhone %>">
+                        </td>
+                    </tr>
+                </table>
+
+            </form>
+            <button onclick="savePersonI()">編輯存儲</button>
+        </div>
+
+
+
+    </div>
+    <script></script>
+    <script>
+        // var pInfor = new Array();
+        // pInfor[0] = {
+        //     workId: 'EG1',
+        //     workName: '水大俠',
+        //     workPersonalId: 'L1111111111',
+        //     workTelephone: '01-1111111',
+        //     workCellphone: '0901-111111',
+        //     workAddress: '地球村美利堅果鎮枚普路11號',
+        //     workStartDay: '2020/11/11',
+        //     workSex: '男',
+        //     workBlood: 'A型',
+        //     workEmergerceRisk: '無',
+        //     workEmergerceContact: '水煮麵 關係:父子 聯絡電話:0908-508508'
+        // }
+
+        // pInfor[1] = {
+        //     workId: 'EG2',
+        //     workName: '王月嬌',
+        //     workPersonalId: 'L1222222222',
+        //     workTelephone: '02-2222222',
+        //     workCellphone: '0902-222222',
+        //     workAddress: '火星村召喚山脈天堂路222號',
+        //     workStartDay: '2021/02/22',
+        //     workSex: '女',
+        //     workBlood: 'B型',
+        //     workEmergerceRisk: '鼻過敏',
+        //     workEmergerceContact: '王林鄒嬤 關係:母女 聯絡電話:0906-098098'
+        // }
+        // var i = document.getElementById('whichPerson').value
+        // document.getElementById('table01').innerText = pInfor[i].workId
+        // document.getElementById('table02').innerText = pInfor[i].workName
+        // document.getElementById('table03').innerText = pInfor[i].workPersonalId
+        // document.getElementById('table04').value = pInfor[i].workTelephone
+        // document.getElementById('table05').value = pInfor[i].workCellphone
+        // document.getElementById('table06').innerText = pInfor[i].workStartDay
+        // document.getElementById('table07').value = pInfor[i].workAddress
+        // document.getElementById('table08').innerText = pInfor[i].workSex
+        // document.getElementById('table09').innerText = pInfor[i].workBlood
+        // document.getElementById('table10').innerText = pInfor[i].workEmergerceRisk
+        // document.getElementById('table12').innerText = pInfor[i].workEmergerceContact
+        // function renew(index) {
+        //     document.getElementById('table01').innerText = pInfor[index].workId
+        //     document.getElementById('table02').innerText = pInfor[index].workName
+        //     document.getElementById('table03').innerText = pInfor[index].workPersonalId
+        //     document.getElementById('table04').value = pInfor[index].workTelephone
+        //     document.getElementById('table05').value = pInfor[index].workCellphone
+        //     document.getElementById('table06').innerText = pInfor[index].workStartDay
+        //     document.getElementById('table07').value = pInfor[index].workAddress
+        //     document.getElementById('table08').innerText = pInfor[index].workSex
+        //     document.getElementById('table09').innerText = pInfor[index].workBlood
+        //     document.getElementById('table10').innerText = pInfor[index].workEmergerceRisk
+        //     document.getElementById('table12').innerText = pInfor[index].workEmergerceContact
+        // }
+
+        function savePersonI() {
+            var WorkId = document.getElementById('table01').innerText;
+            var Name = document.getElementById('table02').innerText;
+            var PersonalId = document.getElementById('table03').innerText;
+            var Phone = document.getElementById('table04').value;
+            var r = Phone.match(/^0\d{1}-?\d{7,10}$/);
+            if (r == null) {
+                alert("请检查電話格式：0X-XXXXXXX");
+                return;
+            }
+
+            var CellPhone = document.getElementById('table05').value;
+            var r = CellPhone.match(/^09\d{2}-?\d{6}$/);
+            if (r == null) {
+                alert("請檢查手機格式：09XX-XXXXXX");
+                return;
+            }
+            var WorkStartDay = document.getElementById('table06').innerText;
+            var Address = document.getElementById('table07').value;
+            var Sex = document.getElementById('table08').innerText;
+            var Blood = document.getElementById('table09').innerText;
+            var Allergy = document.getElementById('table10').value;
+            var EmergencyContactPerson = document.getElementById('table12').value;
+            var EmergencyContactRelationship = document.getElementById('table13').value;
+            var EmergencyContactPhone = document.getElementById('table14').value;
+            var r = EmergencyContactPhone.match(/^09\d{2}-?\d{6}$/);
+            if (r == null) {
+                alert("請檢查緊急聯絡人手機格式：09XX-XXXXXX");
+                return;
+            }
+            // const sql = `UPDATE tableinformation SET Phone = ?, CellPhone = ?, Address = ?, Allergy = ?, EmergencyContactPerson = ? , EmergencyContactRelationship = ?, EmergencyContactPhone = ?WorkId id = ?`;
+            // const data = [Phone, CellPhone, Address, Allergy, EmergencyContactPerson,EmergencyContactRelationship,EmergencyContactPhone,WorkId];
+
+            var objj = { 'Phone': Phone, 'CellPhone': CellPhone, 'Address': Address, 'Allergy': Allergy, 'EmergencyContactPerson': EmergencyContactPerson, 'EmergencyContactRelationship': EmergencyContactRelationship, 'EmergencyContactPhone': EmergencyContactPhone, 'WorkId': WorkId }
+            var JSONData = JSON.stringify(objj);
+            console.log(JSONData);
+            console.log(typeof (JSONData));
+            $.ajax({
+                url: "/update",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSONData,
+                success: function (res) {
+                    var res = JSON.parse(res)
+                    if (res.errno === 1) {
+                        alert("更新成功!")
+                        location.reload()
+                    } else if (res.errno === 0) {
+                        alert("更新失敗!")
+                    }
+                },
+                error: function () {
+                    alert("系統錯誤!")
+                }
+            })
+        }
+        //  console.log(document.getElementById('whichMonth').value)
+        function logoutF() {
+            window.location.href = "/logout";//指定要跳轉到的目標頁面
+        }
+        $('body').append($('<span class="ripple"></span>'));
+
+        $(document).on('click', function (e) {
+            var xPos = e.pageX,
+                yPos = e.pageY;
+            $('.ripple').css({
+                top: yPos - 30,
+                left: xPos - 30
+            }).addClass('active');
+        });
+
+        $(".ripple").on('animationend webkitAnimationEnd oAnimationEnd oanimationend MSAnimationEnd',
+            function () {
+                $('.ripple').removeClass('active');
+            });
+    </script>
+</body>
+
+</html>

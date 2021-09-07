@@ -1,0 +1,5 @@
+PK,WorkID,WorkPassword,Name,PersonalID,Phone,CellPhone,Address,WorkStartDay,Sex,Blood,Allergy,EmergencyContactPerson,EmergencyContactRelationship,EmergencyContactPhone
+1,EG1,abc,李小尾,A000000000,00-0000000,0900-000000,地球村美利堅果里枚普路00號,2014/2/4,男,A,鼻過敏,李大尾,父子,0908-508508
+2,EG2,123,蔡中卷,B111111111,11-1111111,0911-111111,火星鎮阿美麗坑普普路11號,2020/12/12,女,B,眼過敏,蔡琳娘,母女,0999-766766
+3,EG3,abab,樹大風,C222222222,22-2222222,0922-222222,水星鄉泰坦星村夏露路222號,2033/3/3,女,C,舌過敏,樹神,父女,0934-456789
+4,EG4,1212,陽巨文,D333333333,33-3333333,0933-333333,金星區管制區奇露莉路3號,2044/4/4,男,D,皮膚過敏,高美麗,母子,0978-443654

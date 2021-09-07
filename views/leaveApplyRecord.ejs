@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OO公司差勤系統</title>
+    <link rel="stylesheet" type="text/css" href="public/css/css01.css">
+    <script src="public/js/jquery-3.4.1.js"></script>
+    <script src="public/js/jquery-migrate-1.4.1.js"></script>
+    <script type="text/javascript" src="public/js/jquery-ui-1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="public/js/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="public/js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="public/js/jquery-ui-1.12.1/jquery-ui.css" />
+    <script type="text/javascript" src="public/js/jquery-timepicker/jquery.timepicker.js"></script>
+    <script type="text/javascript" src="public/js/jquery-timepicker/jquery.timepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="public/js/jquery-timepicker/jquery.timepicker.css" />
+    <script type="text/javascript"
+        src="public/js/jQuery-Timepicker-Addon-master/src/jquery-ui-timepicker-addon.js"></script>
+    <script type="text/javascript"
+        src="public/js/jQuery-Timepicker-Addon-master/src/jquery-ui-sliderAccess.js"></script>
+    <link rel="stylesheet" type="text/css"
+        href="public/js/jQuery-Timepicker-Addon-master/src/jquery-ui-timepicker-addon.css" />
+
+    <style>
+        table,
+        tr,
+        th,
+        td {
+            border: 3px solid black;
+        }
+
+        th {
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: cadetblue;
+        }
+
+        td {
+            padding: 10px;
+            background-color: rgba(0, 195, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="div1">
+        <p style="text-align: center;"><a href="/index">首頁</a></p>
+
+        <nav id="navleft">
+            <ul>
+                <li><a href="/personalWorkRecord">個人差勤紀錄表</a></li>
+                <li><a href="/overTimeApply">加班申請</a></li>
+                <li><a href="/leaveApply">請假申請/代理人設定</a></li>
+                <li><a href="/salary">薪資查詢</a></li>
+                <li><a href="/personalInformation">個人通訊/基本資料</a></li>
+                <li><a href="/quitApply">離職申請/留職停薪申請</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="div2">
+        <nav id="navtop">
+            <ul>
+                <li><a href="/leaveApply">請假申請/代理人設定</a></li>
+                <li><a href="/leaveApplyRecord">請假申請紀錄</a></li>
+
+            </ul>
+        </nav>
+    </div>
+    <div id="div3">
+        使用者<span style="background-color: powderblue;"><b>
+                <%= accNum %>
+            </b></span> 登入中
+        <button onclick="logoutF()">登出</button>
+    </div>
+    <div id="div4">
+        <table style="width:100%">
+            <tr>
+                <th>次序</th>
+                <th>申請日期</th>
+                <th>請假結束</th>
+                <th>假別</th>
+                <th>天數</th>
+                <th>審核狀態</th>
+                <th>附註</th>
+            </tr>
+            <% data.forEach((item,index)=>{ %>
+                <tr>
+                    <td>
+                        <%- index+1%>
+                    </td>
+                    <td>
+                        <%= item.applyDate%>
+                    </td>
+                    <td>
+                        <%= item.leaveType%>
+                    </td>
+                    <td>
+                        <%= item.leaveDate%>
+                    </td>
+                    <td>
+                        <%= item.leaveUse%>
+                    </td>
+                    <td>
+                        <%= item.ListStatus%>
+                    </td>
+                    <td>
+                        <%= item.applyNote%>
+                    </td>
+                </tr>
+                <% }) %>
+
+        </table>
+
+
+
+
+    </div>
+    <script>
+        function logoutF() {
+            window.location.href = "/logout";//指定要跳轉到的目標頁面
+        }
+        $('body').append($('<span class="ripple"></span>'));
+
+        $(document).on('click', function (e) {
+            var xPos = e.pageX,
+                yPos = e.pageY;
+            $('.ripple').css({
+                top: yPos - 30,
+                left: xPos - 30
+            }).addClass('active');
+        });
+
+        $(".ripple").on('animationend webkitAnimationEnd oAnimationEnd oanimationend MSAnimationEnd',
+            function () {
+                $('.ripple').removeClass('active');
+            });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OO公司差勤系統</title>
+    <link rel="stylesheet" type="text/css" href="public/css/css01.css">
+    <script src="public/js/jquery-3.4.1.js"></script>
+    <script src="public/js/jquery-migrate-1.4.1.js"></script>
+    <style>
+        table,
+        tr,
+        th,
+        td {
+            border: 3px solid black;
+        }
+
+        th {
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: cadetblue;
+        }
+
+        td {
+            padding: 10px;
+            background-color: rgba(0, 195, 255, 0.2);
+        }
+
+        table tr td:first-child {
+            border-right: none;
+            text-align: center;
+        }
+
+        table tr td:nth-child(2) {
+            border-left: none;
+        }
+
+        table tr td:nth-child(3) {
+            border-right: none;
+            text-align: center;
+        }
+
+        table tr td:nth-child(4) {
+            border-left: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="div1">
+        <p style="text-align: center;"><a href="/index">首頁</a></p>
+
+        <nav id="navleft">
+            <ul>
+                <li><a href="/personalWorkRecord">個人差勤紀錄表</a></li>
+                <li><a href="/overTimeApply">加班申請</a></li>
+                <li><a href="/leaveApply">請假申請/代理人設定</a></li>
+                <li><a href="/salary">薪資查詢</a></li>
+                <li><a href="/personalInformation">個人通訊/基本資料</a></li>
+                <li><a href="/quitApply">離職申請/留職停薪申請</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="div2">
+        <nav id="navtop">
+            <ul>
+                <li><a href="/salary">薪資查詢</a></li>
+
+            </ul>
+        </nav>
+    </div>
+    <div id="div3">
+        使用者<span style="background-color: powderblue;"><b><%= accNum %></b></span> 登入中
+        <button onclick="logoutF()">登出</button>
+    </div>
+    <div id="div4">
+        <select id="whichMonth" onChange="renew(this.selectedIndex);" style="font-size: 25px;">
+            <option value="2020/12月">請選擇月份</option>
+            <option value="2020/12月">2020 12月</option>
+            <option value="2021/01月">2021 01月</option>
+            <option value="2021/02月">2021 02月</option>
+            <option value="2021/03月">2021 03月</option>
+            <option value="2021/04月">2021 04月</option>
+        </select>
+        <div style="margin-top: 10px;">
+
+            <table style="width:98%; margin: auto;word-break: break-all;">
+                <caption>每月月薪明細表</caption>
+                <tr>
+                    <th colspan="4" id="table00">年度:</th>
+
+                </tr>
+                <tr>
+                    <th colspan="2" width="50%">收入</th>
+                    <th colspan="2" width="50%">支出</th>
+
+                </tr>
+                <tr>
+                    <td width="15%">月薪:</td>
+                    <td width="35%" id='table01'></td>
+                    <td width="15%">餐費:</td>
+                    <td width="35%" id='table02'></td>
+                </tr>
+                <tr>
+                    <td width="15%">加班:</td>
+                    <td width="35%" id='table03'></td>
+                    <td width="15%">勞健保:</td>
+                    <td width="35%" id='table04'></td>
+                </tr>
+                <tr>
+                    <td width="15%">特別費:</td>
+                    <td width="35%" id='table05'></td>
+                    <td width="15%"></td>
+                    <td width="35%" id='table06'></td>
+                </tr>
+                <tr>
+                    <td width="15%">國務機要費:</td>
+                    <td width="35%" id='table07'></td>
+                    <td width="15%"></td>
+                    <td width="35%" id='table08'></td>
+                </tr>
+                <tr>
+                    <td width="15%">獎勵獎金:</td>
+                    <td width="35%" id='table09'></td>
+                    <td width="15%"></td>
+                    <td width="35%" id='table10'></td>
+                </tr>
+                <tr>
+                    <td width="15%">三節獎金:</td>
+                    <td width="35%" id='table11'></td>
+                    <td width="15%"></td>
+                    <td width="35%" id='table12'></td>
+                </tr>
+                <tr>
+                    <td width="15%">總計:</td>
+                    <td colspan="3" width="85%"id='table13'></td>
+
+                </tr>
+            </table>
+        </div>
+
+
+
+    </div>
+    <script>
+        var salaryMonth = new Array();
+        salaryMonth[0] = {
+            yearKey: '',
+            monthKey: '',
+            monthMoney: '',
+            overMoney: '',
+            specialMoney: '',
+            confidentialStateFee: '',
+            dishMoney: '',
+            laborCosts: '',
+            bonusMoney: '',
+            threeQuarterBonus: '',
+        }
+        salaryMonth[1] = {
+            yearKey: '2020',
+            monthKey: '12',
+            monthMoney: 45000,
+            overMoney: 5500,
+            specialMoney: 3000,
+            confidentialStateFee: 60000,
+            dishMoney: -1235,
+            laborCosts: -4200,
+            bonusMoney: 20000,
+            threeQuarterBonus: 1000,
+        }
+
+        salaryMonth[2] = {
+            yearKey: '2021',
+            monthKey: '01',
+            monthMoney: 45000,
+            overMoney: 3300,
+            specialMoney: 1000,
+            confidentialStateFee: 40000,
+            dishMoney: -3235,
+            laborCosts: -4200,
+            bonusMoney: 10000,
+            threeQuarterBonus: 0,
+        }
+        salaryMonth[3] = {
+            yearKey: '2021',
+            monthKey: '02',
+            monthMoney: 45000,
+            overMoney: 3500,
+            specialMoney: 3000,
+            confidentialStateFee: 70000,
+            dishMoney: -235,
+            laborCosts: -4200,
+            bonusMoney: 7000,
+            threeQuarterBonus: 0,
+        }
+        salaryMonth[4] = {
+            yearKey: '2021',
+            monthKey: '03',
+            monthMoney: 45000,
+            overMoney: 4300,
+            specialMoney: 5000,
+            confidentialStateFee: 40000,
+            dishMoney: -780,
+            laborCosts: -4200,
+            bonusMoney: 20000,
+            threeQuarterBonus: 1000,
+        }
+        salaryMonth[5] = {
+            yearKey: '2021',
+            monthKey: '04',
+            monthMoney: 45000,
+            overMoney: 7000,
+            specialMoney: 15000,
+            confidentialStateFee: 100000,
+            dishMoney: -40,
+            laborCosts: -4200,
+            bonusMoney: 2000,
+            threeQuarterBonus: 0,
+        }
+        function renew(index) {
+            // console.log(Number(salaryMonth[index].monthMoney))
+            totMoney = Number(salaryMonth[index].monthMoney) + Number(salaryMonth[index].overMoney) + Number(salaryMonth[index].specialMoney) + Number(salaryMonth[0].confidentialStateFee) + Number(salaryMonth[index].dishMoney) + Number(salaryMonth[index].laborCosts) + Number(salaryMonth[index].bonusMoney) + Number(salaryMonth[index].threeQuarterBonus)
+            // console.log(totMoney)
+            document.getElementById('table00').innerText = `年度: ${salaryMonth[index].yearKey}年 ${salaryMonth[index].monthKey}月`
+            document.getElementById('table01').innerText = salaryMonth[index].monthMoney
+            document.getElementById('table03').innerText = salaryMonth[index].overMoney
+            document.getElementById('table05').innerText = salaryMonth[index].specialMoney
+            document.getElementById('table07').innerText = salaryMonth[index].confidentialStateFee
+            document.getElementById('table09').innerText = salaryMonth[index].bonusMoney
+            document.getElementById('table09').innerText = salaryMonth[index].threeQuarterBonus
+            document.getElementById('table02').innerText = salaryMonth[index].dishMoney
+            document.getElementById('table04').innerText = salaryMonth[index].laborCosts
+            document.getElementById('table13').innerText = totMoney
+        }
+        //  console.log(document.getElementById('whichMonth').value)
+        function logoutF() {
+            window.location.href = "/logout";//指定要跳轉到的目標頁面
+        }
+        $('body').append($('<span class="ripple"></span>'));
+
+        $(document).on('click', function (e) {
+            var xPos = e.pageX,
+                yPos = e.pageY;
+            $('.ripple').css({
+                top: yPos - 30,
+                left: xPos - 30
+            }).addClass('active');
+        });
+
+        $(".ripple").on('animationend webkitAnimationEnd oAnimationEnd oanimationend MSAnimationEnd',
+            function () {
+                $('.ripple').removeClass('active');
+            });
+    </script>
+</body>
+
+</html>

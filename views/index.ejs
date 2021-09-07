@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OO公司差勤系統</title>
+    <link rel="stylesheet" type="text/css" href="public/css/css01.css">
+    <script src="public/js/jquery-3.4.1.js"></script>
+    <script src="public/js/jquery-migrate-1.4.1.js"></script>
+    <script src="public/js/Js01.js"></script>
+</head>
+
+<body>
+    <div id="div1">
+        <p style="text-align: center;"><a href="/index">首頁</a></p>
+
+        <nav id="navleft">
+            <ul>
+                <li><a href="/personalWorkRecord">個人差勤紀錄表</a></li>
+                <li><a href="/overTimeApply">加班申請</a></li>
+                <li><a href="/leaveApply">請假申請/代理人設定</a></li>
+                <li><a href="/salary">薪資查詢</a></li>
+                <li><a href="/personalInformation">個人通訊/基本資料</a></li>
+                <li><a href="/quitApply">離職申請/留職停薪申請</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="div2">
+        <nav id="navtop">
+            <ul>
+                <li><a href="/personalWorkRecord">個人差勤紀錄表</a></li>
+                <li><a href="/overTimeApply">加班申請</a></li>
+                <li><a href="/leaveApply">請假申請/代理人設定</a></li>
+                <li><a href="/salary">薪資查詢</a></li>
+                <li><a href="/personalInformation">個人通訊/基本資料</a></li>
+                <li><a href="/quitApply">離職申請/留職停薪申請</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="div3">
+        使用者<span style="background-color: powderblue;"><b>
+                <%= accNum %>
+            </b></span> 登入中
+        <button onclick="logoutF()">登出</button>
+    </div>
+
+    <div id="div4">
+        <p>使用者<%= accNum %>你好:</p>
+        歡迎使用OO公司差勤系統!<br>
+        加班時數請<span style="color: red;">摸著良心</span>申請! 並不得超過勞基法規定。<br>
+        請假務必指派代理人，如若代理人也請假將自動轉給直屬老闆。<br>
+        出勤紀錄<span style="color: red;">不等於</span>加班時數。<br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+    </div>
+    <script>
+        function logoutF() {
+            window.location.href = "/logout";//指定要跳轉到的目標頁面
+        }
+        $('body').append($('<span class="ripple"></span>'));
+
+        $(document).on('click', function (e) {
+            var xPos = e.pageX,
+                yPos = e.pageY;
+            $('.ripple').css({
+                top: yPos - 30,
+                left: xPos - 30
+            }).addClass('active');
+        });
+
+        $(".ripple").on('animationend webkitAnimationEnd oAnimationEnd oanimationend MSAnimationEnd',
+            function () {
+                $('.ripple').removeClass('active');
+            });
+    </script>
+</body>
+
+</html>

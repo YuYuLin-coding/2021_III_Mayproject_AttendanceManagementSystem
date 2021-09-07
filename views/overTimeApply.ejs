@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OO公司差勤系統</title>
+    <link rel="stylesheet" type="text/css" href="public/css/css01.css">
+    <script src="public/js/jquery-3.4.1.js"></script>
+    <script src="public/js/jquery-migrate-1.4.1.js"></script>
+    <script type="text/javascript" src="public/js/jquery-ui-1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="public/js/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="public/js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="public/js/jquery-ui-1.12.1/jquery-ui.css" />
+    <script type="text/javascript" src="public/js/jquery-timepicker/jquery.timepicker.js"></script>
+    <script type="text/javascript" src="public/js/jquery-timepicker/jquery.timepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="public/js/jquery-timepicker/jquery.timepicker.css" />
+    <script type="text/javascript"
+        src="public/js/jQuery-Timepicker-Addon-master/src/jquery-ui-timepicker-addon.js"></script>
+    <script type="text/javascript"
+        src="public/js/jQuery-Timepicker-Addon-master/src/jquery-ui-sliderAccess.js"></script>
+    <link rel="stylesheet" type="text/css"
+        href="public/js/jQuery-Timepicker-Addon-master/src/jquery-ui-timepicker-addon.css" />
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="div1">
+        <p style="text-align: center;"><a href="/index">首頁</a></p>
+
+        <nav id="navleft">
+            <ul>
+                <li><a href="/personalWorkRecord">個人差勤紀錄表</a></li>
+                <li><a href="/overTimeApply">加班申請</a></li>
+                <li><a href="/leaveApply">請假申請/代理人設定</a></li>
+                <li><a href="/salary">薪資查詢</a></li>
+                <li><a href="/personalInformation">個人通訊/基本資料</a></li>
+                <li><a href="/quitApply">離職申請/留職停薪申請</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="div2">
+        <nav id="navtop">
+            <ul>
+                <li><a href="/overTimeApply">加班申請</a></li>
+                <li><a href="/overTimeApplyRecord">加班申請紀錄查詢</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="div3">
+        使用者<span style="background-color: powderblue;"><b>
+                <%= accNum %>
+            </b></span> 登入中
+        <button onclick="logoutF()">登出</button>
+    </div>
+    <div id="div4">
+        <p>歡迎<span style="color: purple;">
+                <%= accNum %>
+            </span>使用OO公司差勤系統! </p>
+        <p>加班申請:</p>
+        <br>
+        <div>
+            <div style="border: 3px solid black ;margin:10px">
+                <label for="overStartDay" style="margin:10px">加班開始時間:<br>
+                    <input id="overStartDay" type="text" name="bday" value='' style="margin:10px"></label><br>
+
+
+                <label for="overEndDay" style="margin:10px">至<br>
+                    <input id="overEndDay" type="text" name="bday" style="margin:10px"></label>
+
+
+                <h6 style="margin:10px">
+                    加班申請時數:<br>
+                    您目前申請<span id="overTimeHour" style="color: red;margin:10px"> </span>小時
+                    <br>加班時數申請請勿超過四小時，如若超過有機會審核不過!
+                </h6>
+                <button style="margin: 20px;font-size: 15px;">送出</button>
+            </div>
+
+        </div>
+
+
+    </div>
+    <script>
+
+        $(function () {
+            var todayDate = new Date();
+            // console.log(todayDate)
+            var mmm = ('0' + (todayDate.getMonth() + 1)).substr(-2);
+            var ddd = ('0' + todayDate.getDate()).substr(-2);
+            var yyy = todayDate.getFullYear();
+            // var temp =$("#overStartDay").value=new Date()
+            // document.getElementById('overStartDay').value=new Date().getDate()
+            document.getElementById('overStartDay').value = `${yyy}-${mmm}-${ddd} 17:30`;
+            document.getElementById('overEndDay').value = `${yyy}-${mmm}-${ddd} 21:30`;
+            $("#overStartDay").datetimepicker({
+                dateFormat: 'yy-mm-dd',
+                // defaultDate: '2013-03-17',
+                showSecond: false,
+                timeFormat: 'HH:mm',
+                // defaultValue:"17:30"  
+                stepHour: 1,
+                stepMinute: 5,
+                stepSecond: 1,
+                // controlType: "slider",
+                // controlType: "select",
+                // addSliderAccess: true, 
+                // sliderAccessArgs: { touchonly: false }
+                // separator: '#',
+                maxDate: '+0d'
+            });
+
+            // $('#overStartTime').timepicker({
+            //     timeFormat: 'h:mm p',
+            //     interval: 10,
+            //     minTime: '0',
+            //     maxTime: '23:59pm',
+            //     defaultTime: '17:30',
+            //     startTime: '0',
+            //     dynamic: false,
+            //     dropdown: true,
+            //     scrollbar: true
+            // });
+            $("#overEndDay").datetimepicker({
+                dateFormat: 'yy-mm-dd',
+                // defaultDate: '2013-03-17',
+                showSecond: false,
+                timeFormat: 'HH:mm',
+                // defaultValue:"17:30"  
+                stepHour: 1,
+                stepMinute: 5,
+                stepSecond: 1,
+                // controlType: "slider",
+                // controlType: "select",
+                // addSliderAccess: true, 
+                // sliderAccessArgs: { touchonly: false }
+                // separator: '#',
+                maxDate: '+0d'
+            });
+            // $("#overEndDay").datetimepicker({
+            //     defaultDate: "-7d",
+            //     maxDate: "+0d"
+
+            // });
+            // $('#overEndTime').timepicker({
+            //     timeFormat: 'h:mm p',
+            //     interval: 10,
+            //     minTime: '0',
+            //     maxTime: '23:59pm',
+            //     defaultTime: '21:30',
+            //     startTime: '0',
+            //     dynamic: false,
+            //     dropdown: true,
+            //     scrollbar: true
+            // });
+            //監聽加班時間差
+            window.addEventListener("mousemove", displayDateDiff);
+            // document.getElementById("overStartTime").addEventListener("click", displayDateDiff);
+            // document.getElementById("overEndDay").addEventListener("mousemove", displayDateDiff);
+            // document.getElementById("overEndTime").addEventListener("click",displayDateDiff);
+
+            function displayDateDiff() {
+                // var dayUnit = 1000 * 60 * 60;
+                var hourUnit = 1000 * 60 * 60;
+                var temp = new Date(document.getElementById('overStartDay').value)
+                var tempp = new Date(document.getElementById('overEndDay').value)
+                // var tempp = document.getElementById('overEndDay').value
+                console.log(tempp - temp)
+                // var temppp = tempp - temp
+
+                if ((tempp - temp) > 0) {
+                    var period = ((tempp - temp) / hourUnit).toFixed(2);
+                    // console.log(period);
+                    document.getElementById('overTimeHour').innerText = period;
+                    // //   document.getElementById("demo").innerHTML = Date();
+                }
+                else {
+                    document.getElementById('overTimeHour').innerText = '';
+                }
+
+            }
+
+
+
+        });
+        function logoutF() {
+            window.location.href = "/logout";//指定要跳轉到的目標頁面
+        }
+        $('body').append($('<span class="ripple"></span>'));
+
+        $(document).on('click', function (e) {
+            var xPos = e.pageX,
+                yPos = e.pageY;
+            $('.ripple').css({
+                top: yPos-30,
+                left: xPos-30
+            }).addClass('active');
+        });
+
+        $(".ripple").on('animationend webkitAnimationEnd oAnimationEnd oanimationend MSAnimationEnd',
+            function () {
+                $('.ripple').removeClass('active');
+            });
+    </script>
+</body>
+
+</html>

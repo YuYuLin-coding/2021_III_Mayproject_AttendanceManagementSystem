@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OO公司差勤系統</title>
+    <link rel="stylesheet" type="text/css" href="public/css/css01.css">
+    <script src="public/js/jquery-3.4.1.js"></script>
+    <script src="public/js/jquery-migrate-1.4.1.js"></script>
+
+    <style>
+        table,
+        tr,
+        th,
+        td {
+            border: 3px solid black;
+        }
+
+        th {
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: cadetblue;
+        }
+
+        td {
+            padding: 10px;
+            background-color: rgba(0, 195, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="div1">
+        <p style="text-align: center;"><a href="/index">首頁</a></p>
+
+        <nav id="navleft">
+            <ul>
+                <li><a href="/personalWorkRecord">個人差勤紀錄表</a></li>
+                <li><a href="/overTimeApply">加班申請</a></li>
+                <li><a href="/leaveApply">請假申請/代理人設定</a></li>
+                <li><a href="/salary">薪資查詢</a></li>
+                <li><a href="/personalInformation">個人通訊/基本資料</a></li>
+                <li><a href="/quitApply">離職申請/留職停薪申請</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="div2">
+        <nav id="navtop">
+            <ul>
+                <li><a href="/personalWorkRecord">個人差勤紀錄表</a></li>
+                <li><a href="/overTimeApply">加班申請</a></li>
+                <li><a href="/leaveApply">請假申請/代理人設定</a></li>
+                <li><a href="/salary">薪資查詢</a></li>
+                <li><a href="/personalInformation">個人通訊/基本資料</a></li>
+                <li><a href="/quitApply">離職申請/留職停薪申請</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="div3">
+        使用者<span style="background-color: powderblue;"><b>
+                <%= accNum %>
+            </b></span> 登入中
+        <button onclick="logoutF()">登出</button>
+    </div>
+    <div id="div4">
+        <p>歡迎<span style="color: purple;">
+                <%= accNum %>
+            </span>使用OO公司差勤系統! </p>
+        <p>差勤紀錄表:</p>
+        <span style="font-size: 20px;">周別：</span>
+        <% Weekpage.reverse().forEach((item,index)=> { %>
+            <span style="font-size: 20px;"><a href="/personalWorkRecord<%- last_page-index %>">
+                    <%=item.Week000 %>
+                </a>&nbsp;</span>
+            <% }) %>
+        <table style="width:100%">
+            <thead>
+                <th>#</th>
+                <th>日期</th>
+                <th>班表</th>
+                <th>出勤時間</th>
+                <th>加班紀錄</th>
+                <th>請假紀錄</th>
+            </thead>
+            <tbody>
+                <% data.forEach((item ,index)=> { %>
+                    <tr>
+                        <td>
+                            <%= index+1%>
+                        </td>
+                        <td>
+                            <%= item.MonthDay%>
+                        </td>
+                        <td>
+                            <%= item.shiftArrange%>
+                        </td>
+                        <td>
+                            <%= item.punchInTime%>~<%= item.punchOutTime%>
+                        </td>
+                        <td>
+                            <%= item.overApplyR%>
+                        </td>
+                        <td>
+                            <%= item.leaveApplyR%>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+
+
+        </table>
+
+    </div>
+    <script>
+        function logoutF() {
+            window.location.href = "/logout";//指定要跳轉到的目標頁面
+        }
+        $('body').append($('<span class="ripple"></span>'));
+
+        $(document).on('click', function (e) {
+            var xPos = e.pageX,
+                yPos = e.pageY;
+            $('.ripple').css({
+                top: yPos - 30,
+                left: xPos - 30
+            }).addClass('active');
+        });
+
+        $(".ripple").on('animationend webkitAnimationEnd oAnimationEnd oanimationend MSAnimationEnd',
+            function () {
+                $('.ripple').removeClass('active');
+            });
+    </script>
+</body>
+
+</html>

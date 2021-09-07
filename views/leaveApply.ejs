@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OO公司差勤系統</title>
+    <link rel="stylesheet" type="text/css" href="public/css/css01.css">
+    <script src="public/js/jquery-3.4.1.js"></script>
+    <script src="public/js/jquery-migrate-1.4.1.js"></script>
+    <script type="text/javascript" src="public/js/jquery-ui-1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="public/js/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="public/js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="public/js/jquery-ui-1.12.1/jquery-ui.css" />
+    <script type="text/javascript" src="public/js/jquery-timepicker/jquery.timepicker.js"></script>
+    <script type="text/javascript" src="public/js/jquery-timepicker/jquery.timepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="public/js/jquery-timepicker/jquery.timepicker.css" />
+    <script type="text/javascript"
+        src="public/js/jQuery-Timepicker-Addon-master/src/jquery-ui-timepicker-addon.js"></script>
+    <script type="text/javascript"
+        src="public/js/jQuery-Timepicker-Addon-master/src/jquery-ui-sliderAccess.js"></script>
+    <link rel="stylesheet" type="text/css"
+        href="public/js/jQuery-Timepicker-Addon-master/src/jquery-ui-timepicker-addon.css" />
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="div1">
+        <p style="text-align: center;"><a href="/index">首頁</a></p>
+
+        <nav id="navleft">
+            <ul>
+                <li><a href="/personalWorkRecord">個人差勤紀錄表</a></li>
+                <li><a href="/overTimeApply">加班申請</a></li>
+                <li><a href="/leaveApply">請假申請/代理人設定</a></li>
+                <li><a href="/salary">薪資查詢</a></li>
+                <li><a href="/personalInformation">個人通訊/基本資料</a></li>
+                <li><a href="/quitApply">離職申請/留職停薪申請</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="div2">
+        <nav id="navtop">
+            <ul>
+                <li><a href="/leaveApply">請假申請/代理人設定</a></li>
+                <li><a href="/leaveApplyRecord">請假申請紀錄</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="div3">
+        使用者<span style="background-color: powderblue;"><b>
+                <%= accNum %>
+            </b></span> 登入中
+        <button onclick="logoutF()">登出</button>
+    </div>
+    <div id="div4">
+        <p>歡迎<span style="color: purple;">
+                <%= accNum %>
+            </span>使用OO公司差勤系統! </p>
+        <p>請假申請:</p>
+        <div>
+            <div style="border: 3px solid black ;margin:10px;font-size: 20px;">
+                <form name="myForm" id="myform">
+                    假別：
+                    <select id="myformSelect" onChange="rechoose(this.options[this.selectedIndex].value);"
+                        style="font-size: 25px;">
+                        <% data.forEach((item ,index)=> { %>
+                            <option value="<%= item.AnnualLeave%>">
+                                <%= item.AnnualLeave%>
+                            <option value="<%= item.PersonalLeave%>">
+                                <%= item.PersonalLeave%>
+                            <option value="<%= item.SickInjuryLeave%>">
+                                <%= item.SickInjuryLeave%>
+                            <option value="<%= item.OfficialLeave%>">
+                                <%= item.OfficialLeave%>
+                            <option value="<%= item.OfficialInjuryLeave%>">
+                                <%= item.OfficialInjuryLeave%>
+                            <option value="<%= item.MarriageLeave%>">
+                                <%= item.MarriageLeave%>
+                            <option value="<%= item.FuneralLeave%>">
+                                <%= item.FuneralLeave%>
+                                    <% }) %>
+                    </select><br>
+                    <% data.forEach((item ,index)=> { %>
+                        <h5 id="<%= item.AnnualLeave%>" style="display: block;">您目前選擇的是:<span style="color: blue;">
+                                <%= item.AnnualLeave%>
+                            </span><br>Note:<%= item.AnnualLeaveDesc%><br>目前已休<span id="<%= item.AnnualLeave%>Use" style="color: red;">
+                                    <%= item.AnnualLeaveUse%>
+                                </span>天，上限<span style="color: red;">
+                                    <%= item.AnnualLeaveMax%>
+                                </span>天。</h5>
+                        <h5 id="<%= item.PersonalLeave%>" style="display: none;">您目前選擇的是:<span style="color: blue;">
+                                <%= item.PersonalLeave%>
+                            </span><br>Note:<%= item.PersonalLeaveDesc%><br>目前已休<span id="<%= item.PersonalLeave%>Use"style="color: red;">
+                                    <%= item.PersonalLeaveUse%>
+                                </span>天，上限<span style="color: red;">
+                                    <%= item.PersonalLeaveMax%>
+                                </span>天。</h5>
+                        <h5 id="<%= item.SickInjuryLeave%>" style="display: none;">您目前選擇的是:<span style="color: blue;">
+                                <%= item.SickInjuryLeave%>
+                            </span><br>Note:<%= item.SickInjuryLeaveDesc%><br>目前已休<span id="<%= item.SickInjuryLeave%>Use"style="color: red;">
+                                    <%= item.SickInjuryLeaveUse%>
+                                </span>天，上限<span style="color: red;">
+                                    <%= item.SickInjuryLeaveMax%>
+                                </span>天。</h5>
+                        <h5 id="<%= item.OfficialLeave%>" style="display: none;">您目前選擇的是:<span style="color: blue;">
+                                <%= item.OfficialLeave%>
+                            </span><br>Note:<%= item.OfficialLeaveDesc%><br>目前已休<span id="<%= item.OfficialLeave%>Use"style="color: red;">
+                                    <%= item.OfficialLeaveUse%>
+                                </span>天，上限<span style="color: red;">
+                                    <%= item.OfficialLeaveMax%>
+                                </span>天。</h5>
+                        <h5 id="<%= item.OfficialInjuryLeave%>" style="display: none;">您目前選擇的是:<span
+                                style="color: blue;">
+                                <%= item.OfficialInjuryLeave%>
+                            </span><br>Note:<%= item.OfficialInjuryLeaveDesc%><br>目前已休<span id="<%= item.OfficialInjuryLeave%>Use"style="color: red;">
+                                    <%= item.OfficialInjuryLeaveUse%>
+                                </span>天，上限<span style="color: red;">
+                                    <%= item.OfficialInjuryLeaveMax%>
+                                </span>天。</h5>
+                        <h5 id="<%= item.MarriageLeave%>" style="display: none;">您目前選擇的是:<span style="color: blue;">
+                                <%= item.MarriageLeave%>
+                            </span><br>Note:<%= item.MarriageLeaveDesc%><br>目前已休<span id="<%= item.MarriageLeave%>Use"style="color: red;">
+                                    <%= item.MarriageLeaveUse%>
+                                </span>天，上限<span style="color: red;">
+                                    <%= item.MarriageLeaveMax%>
+                                </span>天。</h5>
+                        <h5 id="<%= item.FuneralLeave%>" style="display: none;">您目前選擇的是:<span style="color: blue;">
+                                <%= item.FuneralLeave%>
+                            </span><br>Note:<%= item.FuneralLeaveDesc%><br>目前已休<span id="<%= item.FuneralLeave%>Use"style="color: red;">
+                                    <%= item.FuneralLeaveUse%>
+                                </span>天，上限<span style="color: red;">
+                                    <%= item.FuneralLeaveMax%>
+                                </span>天。</h5>
+
+                        <% }) %>
+
+                            <label for="overStartDay" style="margin:10px">請假開始時間:<br>
+                                <input id="overStartDay" type="text" name="bday" value=''
+                                    style="margin:10px"></label><br>
+
+
+                            <label for="overEndDay" style="margin:10px">至<br>
+                                <input id="overEndDay" type="text" name="bday" style="margin:10px"></label>
+
+
+                            <h6 style="margin:10px">
+                                請假申請時數:<br>
+                                您目前申請<span id="overTimeHour" style="color: red;margin:10px"> </span>天
+                                <br>每次請假以0.5天為單位，
+                                <br>連續請假超過3天(病假除外)需提前一周告知，否則將嚴重影響主管印象!
+                            </h6>
+                </form>
+                <button style="margin: 20px;font-size: 25px;" onclick="sendLeaveApply()">送出</button>
+
+
+            </div>
+            <hr>
+        </div>
+
+
+    </div>
+    <script>
+
+        $(function () {
+            var todayDate = new Date();
+            // console.log(todayDate)
+            var mmm = ('0' + (todayDate.getMonth() + 1)).substr(-2);
+            var ddd = ('0' + todayDate.getDate()).substr(-2);
+            var yyy = todayDate.getFullYear();
+            // var temp =$("#overStartDay").value=new Date()
+            // document.getElementById('overStartDay').value=new Date().getDate()
+            document.getElementById('overStartDay').value = `${yyy}-${mmm}-${ddd} 08:30`;
+            document.getElementById('overEndDay').value = `${yyy}-${mmm}-${ddd} 17:30`;
+            $("#overStartDay").datetimepicker({
+                dateFormat: 'yy-mm-dd',
+                // defaultDate: '2013-03-17',
+                showSecond: false,
+                timeFormat: 'HH:mm',
+                // defaultValue:"17:30"  
+                stepHour: 1,
+                stepMinute: 5,
+                stepSecond: 1,
+                // controlType: "slider",
+                // controlType: "select",
+                // addSliderAccess: true, 
+                // sliderAccessArgs: { touchonly: false }
+                // separator: '#',
+                maxDate: '+0d'
+            });
+
+            // $('#overStartTime').timepicker({
+            //     timeFormat: 'h:mm p',
+            //     interval: 10,
+            //     minTime: '0',
+            //     maxTime: '23:59pm',
+            //     defaultTime: '17:30',
+            //     startTime: '0',
+            //     dynamic: false,
+            //     dropdown: true,
+            //     scrollbar: true
+            // });
+            $("#overEndDay").datetimepicker({
+                dateFormat: 'yy-mm-dd',
+                // defaultDate: '2013-03-17',
+                showSecond: false,
+                timeFormat: 'HH:mm',
+                // defaultValue:"17:30"  
+                stepHour: 1,
+                stepMinute: 5,
+                stepSecond: 1,
+                // controlType: "slider",
+                // controlType: "select",
+                // addSliderAccess: true, 
+                // sliderAccessArgs: { touchonly: false }
+                // separator: '#',
+                // maxDate: '+0d'
+            });
+            // $("#overEndDay").datetimepicker({
+            //     defaultDate: "-7d",
+            //     maxDate: "+0d"
+
+            // });
+            // $('#overEndTime').timepicker({
+            //     timeFormat: 'h:mm p',
+            //     interval: 10,
+            //     minTime: '0',
+            //     maxTime: '23:59pm',
+            //     defaultTime: '21:30',
+            //     startTime: '0',
+            //     dynamic: false,
+            //     dropdown: true,
+            //     scrollbar: true
+            // });
+            //監聽加班時間差
+            window.addEventListener("mousemove", displayDateDiff);
+            // document.getElementById("overStartTime").addEventListener("click", displayDateDiff);
+            // document.getElementById("overEndDay").addEventListener("mousemove", displayDateDiff);
+            // document.getElementById("overEndTime").addEventListener("click",displayDateDiff);
+
+            function displayDateDiff() {
+                // var dayUnit = 1000 * 60 * 60 * 24;
+                var hourUnit = 1000 * 60 * 60;
+                var temp = new Date(document.getElementById('overStartDay').value)
+                var tempp = new Date(document.getElementById('overEndDay').value)
+                // var tempp = document.getElementById('overEndDay').value
+                // console.log(tempp - temp)
+                // var temppp = tempp - temp
+
+                if ((tempp - temp) > 0) {
+                    var period = ((tempp - temp) / hourUnit).toFixed(2);
+                    // console.log(parseInt(period/24));
+                    // console.log(parseInt(period%24));
+                    if (parseInt(period % 24) - 1 <= 4) {
+                        period = parseInt(period / 24) + 0.5;
+                    }
+                    else { period = parseInt(period / 24) + 1; }
+                    // console.log(period);
+                    document.getElementById('overTimeHour').innerText = period;
+                    // //   document.getElementById("demo").innerHTML = Date();
+                }
+                else {
+                    document.getElementById('overTimeHour').innerText = '';
+                }
+
+            }
+
+
+
+        });
+
+        department = new Array();
+        department[0] = {
+            description: '尚未選擇', remainHoliday: 0, usedHoliday: 0, totalHolidday: 0,
+            noteHoliday: ""
+        };	// 請選擇假別
+        department[1] = {
+            description: '特別休假', remainHoliday: 10, usedHoliday: 2, totalHolidday: 12,
+            noteHoliday: "依工作年資依法給予相應假期數"
+        };	// 特別休假
+        department[2] = {
+            description: '事假', remainHoliday: 10, usedHoliday: 2, totalHolidday: 12,
+            noteHoliday: "1年內合計不得超過14日。"
+        };	// 事假
+        department[3] = {
+            description: '普通傷病假', remainHoliday: 27.5, usedHoliday: 2.5, totalHolidday: 30,
+            noteHoliday: "<ol><li>未住院者，1年內合計不得超過30日。</li><li>住院者，2年內合計不得超過1年。</li><li>未住院傷病假與住院傷病假2年內合計不得超過1年。</li><li>經醫師診斷，罹患癌症（含原位癌）採門診方式治療或懷孕期間需安胎休養者，其治療或休養期間，併入住院傷病假計算。</ol>"
+        };	// 普通傷病假
+        department[4] = {
+            description: '公假', remainHoliday: 0, usedHoliday: 0, totalHolidday: 0,
+            noteHoliday: "依法令規定應給予公假者。"
+        };	// 公假
+        department[5] = {
+            description: '公傷病假', remainHoliday: 0, usedHoliday: 0, totalHolidday: 0,
+            noteHoliday: "因職業災害而致失能、傷害或疾病者，其治療、休養期間，給予公傷病假。"
+        };	// 公傷病假
+        department[6] = {
+            description: '婚假', remainHoliday: 8, usedHoliday: 0, totalHolidday: 8,
+            noteHoliday: "每次結婚至多請8日。<br>倘雙方間無離婚之真意，即欠缺離婚之實質要件，縱已辦理離婚登記，該離婚亦屬無效，自不具備再行結婚之事實，<br>且恐涉及民法第148條權利<span style='color:red'>濫用禁止原則</span>或<span style='color:red'>誠實信用原則</span>之規定"
+        };	// 婚假
+        department[7] = {
+            description: '喪假', remainHoliday: 0, usedHoliday: 0, totalHolidday: 0,
+            noteHoliday: "<ol><li>父母、養父母、繼父母、配偶喪亡者，喪假8日。</li><li>祖父母、子女、配偶之父母、配偶之養父母或繼父母喪亡者，喪假6日。</li><li> 曾祖父母、兄弟姊妹、配偶之祖父母喪亡者，喪假3日。</li></ol >"
+        };	// 喪假
+
+
+        // function renew(index) {
+        //     // console.log(department[index].description)
+        //     // for (var i = 0; i < department[index].length; i++)
+        //     // document.myForm.member.options[i] = new Option(department[index][i], department[index][i]);	// 設定新選項
+        //     // var tempDescription=department[index].description
+        //     document.getElementById('holidayType').innerHTML = `您目前選擇的是<span style="color:blue;margin:15px">${department[index].description}</span>，<br>已休<span style="color:red;margin:15px">${department[index].usedHoliday}</span>天，還有<span style="color:red;margin:15px">${department[index].remainHoliday}</span>天<br>上限<span style="color:red;margin:15px">${department[index].totalHolidday}</span>天`;
+
+        //     document.getElementById('holidayNote').innerHTML = `附註: ${department[index].description}<br>${department[index].noteHoliday}`;
+        // }
+        function rechoose(index) {
+            document.getElementById("特休/年假").style.display = "none";
+            document.getElementById("事假").style.display = "none";
+            document.getElementById("普通傷病假").style.display = "none";
+            document.getElementById("公假").style.display = "none";
+            document.getElementById("公傷病假").style.display = "none";
+            document.getElementById("婚假").style.display = "none";
+            document.getElementById("喪假").style.display = "none";
+            document.getElementById(index).style.display = "block";
+        }
+        function sendLeaveApply() {
+            var x = document.getElementById("myformSelect").value;
+            var y = document.getElementById("overStartDay").value;
+            var z = document.getElementById("overEndDay").value;
+            var z = z.slice(5,);
+            var v = document.getElementById("overTimeHour").innerText;
+            var holiTypegroup={'特休/年假':'AnnualLeaveUse','事假':'PersonalLeaveUse','普通傷病假':'SickInjuryLeaveUse','公假':'OfficialLeaveUse','公傷病假':'OfficialInjuryLeaveUse','婚假':'MarriageLeaveUse','喪假':'FuneralLeaveUse'}
+            var holiType=holiTypegroup[x]
+            var xUse=document.getElementById(`${x}Use`).innerText;
+            var leaveTypeUse=parseInt(xUse)+parseInt(v);
+            var d = new Date;
+            var d = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+            var objj = { 'applyDate': d, 'leaveType': x, 'leaveDate': `${y}~${z}`, 'leaveUse': v ,'holiType':holiType,'leaveTypeUse':leaveTypeUse};
+            var JSONData = JSON.stringify(objj);
+            $.ajax({
+                url: "/add",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSONData,
+                success: function(res) {
+                    var res = JSON.parse(res)
+                    //後端會封裝一個response class，預先寫好執行No.
+                    if(res.errno === 1) {
+                        alert("新增成功!")
+                    } else if(res.errno === 0) {
+                        alert("新增失敗!")
+                    }
+                },
+                error: function() {
+                    alert("系統錯誤!")
+                }
+            })
+        }
+        function logoutF() {
+            window.location.href = "/logout";//指定要跳轉到的目標頁面
+        }
+        $('body').append($('<span class="ripple"></span>'));
+
+        $(document).on('click', function (e) {
+            var xPos = e.pageX,
+                yPos = e.pageY;
+            $('.ripple').css({
+                top: yPos - 30,
+                left: xPos - 30
+            }).addClass('active');
+        });
+
+        $(".ripple").on('animationend webkitAnimationEnd oAnimationEnd oanimationend MSAnimationEnd',
+            function () {
+                $('.ripple').removeClass('active');
+            });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,153 @@
+#div1 {
+    background-color:rgb(255, 155, 255);
+    position: fixed;
+    left: 0px;
+    top:0px;
+    width:15%;
+    height: 100%;
+    text-align: right;
+    font-size: 25px;
+}
+#div1 p {
+    /* display: inline-block; */
+    text-align: center;
+    background-color: rgb(197, 109, 197);
+    text-decoration: none;
+
+}
+/* 我是分隔線------------------------------------------------------------------------ */
+
+#div2 {
+    position: relative;
+    top: 0px;
+    left:15%;
+    margin-left: 0px;
+    width:85%;
+    /* height: 100%; */
+    background-color: orange;
+    border: 3px solid black;
+}
+/* 我是分隔線------------------------------------------------------------------------ */
+#div3{
+    position: fixed;
+    right: 15px;
+    top: 15px;
+    background-color: pink;
+}
+/* 我是分隔線------------------------------------------------------------------------ */
+#div4 {
+    position: relative;
+    left: 15%;
+    top: 0px;
+    height: 100%;
+    width:83%;
+    border:3px  solid black;
+    text-align: left;
+    font-size: 30px;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+/* 我是分隔線------------------------------------------------------------------------ */
+#navleft ul li {
+    background-color: rgb(135, 137, 235);
+    /* display:block; */
+    text-decoration: none;
+    list-style-type:none;
+    /* margin:0px; */
+}
+
+#navleft ul li a {
+    /* 充滿整個區塊 */
+    display: block;
+    /* 擴大區域內部空間 */
+    padding: 5px;
+}
+
+#navleft ul li a:link {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+#navleft ul li a:visited {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+#navleft ul li a:active {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+#navleft ul li a:hover {
+    /* 文字為白色 */
+    color: #FFFFFF;
+    /* 文字沒有裝飾（底線） */
+    text-decoration: none;
+    /* 背景為橙紅色 */
+    background-color: orange;
+}
+/* 我是分隔線------------------------------------------------------------------------ */
+#navtop ul li {
+    background-color: skyblue;
+    display: inline-block;
+    /* float: left; */
+    text-decoration: none;
+}
+
+#navtop ul li a {
+    /* 充滿整個區塊 */
+    display: block;
+    /* 擴大區域內部空間 */
+    padding: 5px;
+}
+
+#navtop ul li a:link {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+#navtop ul li a:visited {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+#navtop ul li a:active {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+#navtop ul li a:hover {
+    /* 文字為白色 */
+    color: #FFFFFF;
+    /* 文字沒有裝飾（底線） */
+    text-decoration: none;
+    /* 背景為橙紅色 */
+    background-color: orange;
+}
+/* 我是分隔線------------------------------------------------------------------------ */
+/* @import "lesshat"; */
+
+th{font-size: 20px;}
+td{font-size: 15px;}
+
+.ripple {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  border: 5px solid #93dadf;
+  position: absolute;
+  left: 10%;
+  transform: scale(.5);
+  display: none;
+}
+.ripple.active {
+  display: block;
+  animation: ripple 0.7s ease-out forwards;
+}
+@keyframes ripple {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+}
+/* 我是分隔線------------------------------------------------------------------------ */

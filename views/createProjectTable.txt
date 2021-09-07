@@ -1,0 +1,13 @@
+CREATE DATABASE testDB;
+CREATE TABLE PersonsInformation (
+    PersonID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255)
+);
+//ALTER TABLE Customers
+//ADD Email varchar(255);
+//DROP COLUMN column_name;
+//ALTER TABLE table_name
+//MODIFY COLUMN column_name datatype;

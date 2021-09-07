@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+    <head>
+        <meta charset="UTF-8">
+        <script src="public/js/jquery-3.4.1.js"></script>
+        <script src="public/js/jquery-migrate-1.4.1.js"></script>
+     
+        <style>
+            body {
+                background-image: url(public/img/loginBG.png);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 100%;
+
+
+            }
+
+            div {
+                text-align: center;
+            }
+
+            label {
+                background-color: rgba(255, 255, 255, 0.5);
+                color: #646464;
+            }
+        </style>
+        <title>OO公司差勤系統登入</title>
+    </head>
+
+    <body>
+        <br><br><br>
+        <div></div>
+        <div id="toDate" style="font-size: 40px;"></div>
+        <div><b style="font-size: 40px;">OO公司登入系統</b></div>
+        <div>
+            <form method="post" action="">
+                <label style="font-size: 30px;">帳號:<input id="accNum" type="text"
+                        onkeyup="value=value.replace(/[\W]/g,'')" style="font-size: 25px;" name="accNum"></label><br>
+                <label style="font-size: 30px;">密碼:<input id="paWord" type="password"
+                        onkeyup="value=value.replace(/[\W]/g,'')" style="font-size: 25px;" name="paWord"></label><br>
+                <label style="font-size: 25px;"><input id="remember" type="checkbox">是否記住帳號</label><br>
+                <button type="submit" style="font-size: 25px;">登入</button>
+            </form>
+        </div>
+        <div id="showLoginMsg" style="font-size: 25px;background-color: rgba(255,255,255,0.5); display:block"><%= WrongMSG %></div>
+        <script>
+
+            $(document).ready(function () {
+                document.getElementById('toDate').innerText = new Date();
+
+                function getNewTimer() {
+                    var temp = new Date();
+                    // console.log(temp);
+                    document.getElementById('toDate').innerText = temp;
+
+                }
+                setInterval(getNewTimer, 1000)
+
+
+            })
+            function loginFun() {
+                var personName = document.getElementById('accNum').value;
+                var personPass = document.getElementById('paWord').value;
+                // console.log(personName)
+                // console.log(personPass)
+                // console.log(personName == 'EG1')
+                // console.log(personPass == 'T')
+                if (personName == 'EG1') {
+                    if (personPass == 'T') {
+                        document.getElementById('showLoginMsg').innerText = '登入成功,2秒後轉換頁面'
+                        setTimeout(redirect, 2000)
+                    } else {
+                        document.getElementById('showLoginMsg').innerText = '密碼錯誤'
+                    }
+                }
+                else if (personName == '') { document.getElementById('showLoginMsg').innerText = '請輸入帳號' }
+                else { document.getElementById('showLoginMsg').innerText = '查無此帳號' }
+            }
+            //跳轉頁
+            function redirect() {
+                window.location.href = "http://127.0.0.1:5500/index.html";//指定要跳轉到的目標頁面
+            }
+            $('body').append($('<span class="ripple"></span>'));
+
+            $(document).on('click', function (e) {
+                var xPos = e.clientX,
+                    yPos = e.clientY;
+                $('.ripple').css({
+                    top: yPos - 30,
+                    left: xPos - 30
+                }).addClass('active');
+            });
+
+            $(".ripple").on('animationend webkitAnimationEnd oAnimationEnd oanimationend MSAnimationEnd',
+                function () {
+                    $('.ripple').removeClass('active');
+                });
+        </script>
+    </body>
+
+</html>
